@@ -90,14 +90,13 @@ class CharlesFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             }
 
         })
-
-        activity?.supportLoaderManager?.initLoader(0, null, this)
+        LoaderManager.getInstance(this).initLoader(0, null, this)
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.supportLoaderManager?.destroyLoader(MediaItemLoader.LOADER_ID)
+        LoaderManager.getInstance(this).destroyLoader(MediaItemLoader.LOADER_ID)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> = MediaItemLoader.newInstance(context!!, mFilterType!!)

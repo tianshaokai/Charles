@@ -47,7 +47,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
     private val mSelectedItemCollection = selectedItemCollection
     private var mCursor: Cursor? = null
     private var mContext: Context? = null
-    private var mMediaItemClickListener: MediaItemsAdapter.OnMediaItemClickListener? = null
+    private var mMediaItemClickListener: OnMediaItemClickListener? = null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         mCursor?.moveToPosition(position)
@@ -74,7 +74,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, image.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(image.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(image.mimeType)?.toUpperCase())
                         mContext?.let {
                             SelectionSpec.INSTANCE.imageEngine.loadImage(it, imageView, image.uri)
                         }
@@ -109,7 +109,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, video.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(video.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(video.mimeType)?.toUpperCase())
                         mContext?.let {
                             SelectionSpec.INSTANCE.imageEngine.loadImage(it, imageView, video.uri)
                         }
@@ -139,7 +139,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, audio.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(audio.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(audio.mimeType)?.toUpperCase())
 
                         imageView.setImageResource(R.drawable.ic_root_audio)
                         imageView.setColorFilter(Color.parseColor("#808080"), PorterDuff.Mode.SRC_IN)
@@ -168,7 +168,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, document.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(document.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(document.mimeType)?.toUpperCase())
                         imageView.setImageResource(R.drawable.ic_root_doc)
                         imageView.setColorFilter(Color.parseColor("#808080"), PorterDuff.Mode.SRC_IN)
 

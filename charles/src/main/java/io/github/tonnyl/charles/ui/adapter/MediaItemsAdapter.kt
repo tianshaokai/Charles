@@ -63,18 +63,10 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                     val image = MediaItem.valueOf(it, MediaFilterType.IMAGE)
                     with((holder as MediaItemViewHolder).itemView) {
                         nameTextView.text = image.name
-                        var size = image.size / 1024.0
-                        val sizeText: String
-                        if (size >= 1024) {
-                            size /= 1024
-                            sizeText = context.getString(R.string.mb).format(size)
-                        } else {
-                            sizeText = context.getString(R.string.kb).format(size)
-                        }
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, image.time * 1000, DateUtils.FORMAT_SHOW_DATE),
-                                        sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(image.mimeType)?.toUpperCase())
+                                        getFileSize(context, image.size),
+                                        getExtensionFromMimeType(image.mimeType))
                         mContext?.let {
                             SelectionSpec.INSTANCE.imageEngine.loadImage(it, imageView, image.uri)
                         }
@@ -98,18 +90,10 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         // display duration text view
                         durationTextView.visibility = View.VISIBLE
                         durationTextView.text = DateUtils.formatElapsedTime(video.duration / 1000)
-                        var size = video.size / 1024.0
-                        val sizeText: String
-                        if (size >= 1024) {
-                            size /= 1024
-                            sizeText = context.getString(R.string.mb).format(size)
-                        } else {
-                            sizeText = context.getString(R.string.kb).format(size)
-                        }
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, video.time * 1000, DateUtils.FORMAT_SHOW_DATE),
-                                        sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(video.mimeType)?.toUpperCase())
+                                        getFileSize(context, video.size),
+                                        getExtensionFromMimeType(video.mimeType))
                         mContext?.let {
                             SelectionSpec.INSTANCE.imageEngine.loadImage(it, imageView, video.uri)
                         }
@@ -128,18 +112,10 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                     val audio = MediaItem.valueOf(it, MediaFilterType.AUDIO)
                     with((holder as MediaItemViewHolder).itemView) {
                         nameTextView.text = audio.name
-                        var size = audio.size / 1024.0
-                        val sizeText: String
-                        if (size >= 1024) {
-                            size /= 1024
-                            sizeText = context.getString(R.string.mb).format(size)
-                        } else {
-                            sizeText = context.getString(R.string.kb).format(size)
-                        }
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, audio.time * 1000, DateUtils.FORMAT_SHOW_DATE),
-                                        sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(audio.mimeType)?.toUpperCase())
+                                        getFileSize(context, audio.size),
+                                        getExtensionFromMimeType(audio.mimeType))
 
                         imageView.setImageResource(R.drawable.ic_root_audio)
                         imageView.setColorFilter(Color.parseColor("#808080"), PorterDuff.Mode.SRC_IN)
@@ -157,18 +133,10 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                     val document = MediaItem.valueOf(it, MediaFilterType.DOCUMENT)
                     with((holder as MediaItemViewHolder).itemView) {
                         nameTextView.text = document.name
-                        var size = document.size / 1024.0
-                        val sizeText: String
-                        if (size >= 1024) {
-                            size /= 1024
-                            sizeText = context.getString(R.string.mb).format(size)
-                        } else {
-                            sizeText = context.getString(R.string.kb).format(size)
-                        }
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, document.time * 1000, DateUtils.FORMAT_SHOW_DATE),
-                                        sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(document.mimeType)?.toUpperCase())
+                                        getFileSize(context, document.size),
+                                        getExtensionFromMimeType(document.mimeType))
                         imageView.setImageResource(R.drawable.ic_root_doc)
                         imageView.setColorFilter(Color.parseColor("#808080"), PorterDuff.Mode.SRC_IN)
 
@@ -210,6 +178,23 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
 
     fun unregisterOnMediaClickListener() {
         mMediaItemClickListener = null
+    }
+
+    private fun getFileSize(context: Context, fileSize: Long) : String {
+        var size = fileSize / 1024.0
+        val sizeText: String
+        if (size >= 1024) {
+            size /= 1024
+            sizeText = context.getString(R.string.mb).format(size)
+        } else {
+            sizeText = context.getString(R.string.kb).format(size)
+        }
+        return sizeText
+    }
+
+    private fun getExtensionFromMimeType(fileType: String): String {
+        val type = MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType) ?: return "未知"
+        return type.run { toUpperCase() }
     }
 
     inner class MediaItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -255,9 +240,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
     }
 
     interface OnMediaItemClickListener {
-
         fun onItemClick(item: MediaItem, position: Int)
-
     }
 
 }

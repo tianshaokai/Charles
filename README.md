@@ -14,25 +14,6 @@ Charles is a local file selector for Android. You can
 | :-------------: | :-------------: | :-------------: |
 | ![Charles Style](./art/Charles.png) | ![Empty View](./art/CharlesDark.png) | ![Charles Empty Layout](./art/Empty.png) |
 
-## Download
-+ Add the JitPack repository to your build file:
-
-```gradle
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-```
-
-+ Add the dependency:
-
-```gradle
-dependencies {
-    implementation 'io.github.tonnyl:charles:x.y.z'
-}
-```
-
 ## ProGuard
 If you use [Glide](https://github.com/bumptech/glide) as your image engine, add rules as Glide's README says.
 And add extra rule:

@@ -29,6 +29,9 @@ import android.webkit.MimeTypeMap
 import androidx.loader.content.CursorLoader
 import io.github.tonnyl.charles.internal.data.MediaFilterType
 
+/**
+ * 在Android7.0中MimeTypeMap.getSingleton().getMimeTypeFromExtension() 不可以使用大写参数，否则返回null
+ */
 class MediaItemLoader private constructor(
 
         context: Context,
@@ -99,14 +102,14 @@ class MediaItemLoader private constructor(
             |AND ${MediaStore.MediaColumns.SIZE}>0
             """.trimMargin()
         private val DOCUMENTS_SELECTION_ARGS = arrayOf(
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("TXT"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("HTM"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("HTML"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("PDF"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("DOC"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("XLS"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("PPT"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("ZIP"))
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("htm"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("html"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("xls"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("ppt"),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("zip"))
         private const val DOCUMENTS_ORDER_BY = "${MediaStore.Files.FileColumns.DATE_ADDED} DESC"
         private val DOCUMENTS_QUERY_URI = MediaStore.Files.getContentUri("external")
         private val DOCUMENTS_PROJECTION = arrayOf(
